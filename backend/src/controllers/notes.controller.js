@@ -1,8 +1,23 @@
 const notesController = {};
 
-notesController.getNotes = (req, res) => res.json({ message: [] })
+const Note = require('../models/Note');
 
-notesController.createNotes = (req, res) => res.json({ message: 'Note Saved' })
+notesController.getNotes = async (req, res) => {
+    const notes = await Note.find();
+    res.json(notes)
+}
+
+notesController.createNotes = (req, res) => {
+    const { title, content, date, author } = req.body
+    const newNote = new Note({
+        title: title,
+        content: content,
+        date: date,
+        author: author
+    })
+    console.log(newNote);
+    res.json({ message: 'Note Saved' })
+}
 
 notesController.getOneNote = (req, res) => res.json({ title: 'absabsab' })
 
