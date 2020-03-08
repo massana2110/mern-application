@@ -7,22 +7,35 @@ notesController.getNotes = async (req, res) => {
     res.json(notes)
 }
 
-notesController.createNotes = (req, res) => {
+notesController.createNotes = async (req, res) => {
     const { title, content, date, author } = req.body
     const newNote = new Note({
-        title: title,
-        content: content,
-        date: date,
-        author: author
+        title,
+        content,
+        date,
+        author
     })
-    console.log(newNote);
+    await newNote.save();
     res.json({ message: 'Note Saved' })
 }
 
-notesController.getOneNote = (req, res) => res.json({ title: 'absabsab' })
+notesController.getOneNote = async (req, res) => {
+    const note = await Note.findById(req.params.id)
+    res.json(note)
+}
+notesController.updateNote = async (req, res) => {
+    const { title, content, author } = req.body
+    await Note.findOneAndUpdate(req.params.id, {
+        title,
+        author,
+        content
+    })
+    res.json({ message: 'Note Updated' })
+}
 
-notesController.updateNote = (req, res) => res.json({ message: 'Note Updated' })
-
-notesController.deleteNote = (req, res) => res.json({ message: 'Note Removed' })
+notesController.deleteNote = async (req, res) => {
+    await Note.findOneAndDelete(req.params.id)
+    res.json({ message: 'Note Removed' })
+}
 
 module.exports = notesController;

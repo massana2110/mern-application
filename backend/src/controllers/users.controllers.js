@@ -1,9 +1,21 @@
 const userController = {};
+const User = require('../models/User');
 
-userController.getUsers = (req, res) => res.json({ message: [] })
+userController.getUsers = async (req, res) => {
+    const users = await User.find();
+    res.json(users)
+}
 
-userController.createUsers = (req, res) => res.json({ message: 'User Saved' })
+userController.createUsers = async (req, res) => {
+    const { username } = req.body;
+    const newUser = new User({ username });
+    await newUser.save();
+    res.json({ message: 'User Created' })
+}
 
-userController.deleteUser = (req, res) => res.json({ message: 'User Removed' })
+userController.deleteUser = async (req, res) => {
+    await User.findOneAndDelete(req.params.id)
+    res.json({ message: 'User Removed' })
+}
 
 module.exports = userController;
