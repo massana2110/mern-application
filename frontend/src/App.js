@@ -4,6 +4,7 @@ import Navigation from "./components/Navigation"
 import NotesList from './components/NotesList';
 import CreateNote from './components/CreateNote';
 import CreateUser from './components/CreateUser';
+import './styles/index.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'jquery'
 import 'bootstrap/dist/js/bootstrap'
